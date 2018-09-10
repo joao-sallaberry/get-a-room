@@ -7,16 +7,22 @@
   "author": "Joao Sallaberry <joaovictorhs@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "node-mocks-http": "^1.7.0",
     "nodemon": "^1.18.4",
-    "standard": "^12.0.1"
+    "standard": "^12.0.1",
+    "tape": "^4.9.1"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.3",
-    "mongoose": "^5.2.13"
+    "joi": "^13.6.0",
+    "mongoose": "^5.2.13",
+    "require-dir": "^1.0.0"
   },
   "scripts": {
-    "start": "node index.js",
-    "dev": "standard && nodemon index.js",
-    "linter": "standard --fix"
+    "start": "node app.js",
+    "dev": "standard && nodemon app.js",
+    "linter": "standard --fix",
+    "test": "NODE_ENV=test tape test/*.js"
   }
 }
