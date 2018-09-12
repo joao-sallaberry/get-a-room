@@ -3,7 +3,7 @@ const Joi = require('joi')
 
 module.exports = {
   get: (req, res) => {
-    Room.find({})
+    return Room.find({}, { _id: 0, name: 1, number: 1 }).lean()
       .then(rooms => res.json(rooms))
       .catch(err => res.json(err))
   },
@@ -14,7 +14,7 @@ module.exports = {
       name: Joi.string().required()
     })
 
-    Joi.validate(req.body, schema)
+    return Joi.validate(req.body, schema)
       .then(body => {
         const now = new Date()
         const room = new Room({
@@ -33,7 +33,7 @@ module.exports = {
       name: Joi.string().required()
     })
 
-    Joi.validate(req.body, schema)
+    return Joi.validate(req.body, schema)
       .then(body =>
         Room.findOneAndUpdate(
           { number: req.params.number },
@@ -48,7 +48,7 @@ module.exports = {
   },
 
   delete: (req, res) => {
-    Room.findOneAndUpdate(
+    return Room.findOneAndUpdate(
       { number: req.params.number },
       {
         isDeleted: true,
