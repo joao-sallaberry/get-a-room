@@ -17,12 +17,11 @@ module.exports = {
     return Joi.validate(req.body, schema)
       .then(body => {
         const now = new Date()
-        const room = new Room({
+        return Room.create({
           ...body,
           createdAt: now,
           updatedAt: now
         })
-        return room.save()
       })
       .then(room => res.json(room))
       .catch(err => res.status(500).json(err))
