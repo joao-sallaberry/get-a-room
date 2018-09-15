@@ -21,7 +21,6 @@ const Room = mongoose.model('Room', roomSchema)
 roomSchema.path('number').validate(value => {
   return Room.findOne({ number: value })
     .then(doc => !doc)
-}, 'Room number already exists');
-
+}, 'Room number already exists')
 
 module.exports = Room

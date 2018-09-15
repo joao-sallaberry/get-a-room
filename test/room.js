@@ -45,13 +45,13 @@ test('CREATE room', t => {
   mongoose.connection.db.dropDatabase()
     .then(() => room.create(req, res))
     .then(() => t.equal(res.statusCode, 200))
-    .then(() => Room.findOne({}, { _id: 0, name: 1, number: 1}).lean())
+    .then(() => Room.findOne({}, { _id: 0, name: 1, number: 1 }).lean())
     .then(doc => t.deepEqual(doc, data))
     .then(() => t.end())
 })
 
 test('CREATE room - invalid number', t => {
-  const data = { number: -1, name: 'negativeRoom'}
+  const data = { number: -1, name: 'negativeRoom' }
 
   const req = httpMocks.createRequest({
     method: 'POST',
@@ -95,7 +95,7 @@ test('CREATE room - duplicate number', t => {
     .then(() => room.create(req2, res2))
     // .then(() => console.log('res2', JSON.parse(res2._getData())))
     .then(() => t.equal(res2.statusCode, 500))
-    .then(() => Room.find({}, { _id: 0, name: 1, number: 1}).lean())
+    .then(() => Room.find({}, { _id: 0, name: 1, number: 1 }).lean())
     .then(docs => t.equal(docs.length, 1))
     .then(() => t.end())
 })
@@ -108,8 +108,8 @@ test('UPDATE room', t => {
   const req = httpMocks.createRequest({
     method: 'PUT',
     url: `/rooms/${data0.number}`,
-    params: { number: data0.number},
-    body: { name: data0.name },
+    params: { number: data0.number },
+    body: { name: data0.name }
   })
   const res = httpMocks.createResponse()
 
@@ -132,7 +132,7 @@ test('DELETE room', t => {
   const req = httpMocks.createRequest({
     method: 'DELETE',
     url: `/rooms/${data.number}`,
-    params: { number: data.number},
+    params: { number: data.number }
   })
   const res = httpMocks.createResponse()
 
@@ -142,7 +142,7 @@ test('DELETE room', t => {
     // .then(() => console.log('res', res._getData()))
     .then(() => t.equal(res.statusCode, 200))
     .then(() => Room.findOne({}, { _id: 0, __v: 0, updatedAt: 0 }).lean())
-    .then(doc => t.deepEqual(doc, { ...data, isDeleted: true}))
+    .then(doc => t.deepEqual(doc, { ...data, isDeleted: true }))
     .then(() => t.end())
 })
 
