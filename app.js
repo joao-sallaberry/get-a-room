@@ -20,6 +20,13 @@ app.route('/rooms/:number')
   .put(controllers.room.update)
   .delete(controllers.room.delete)
 
+app.route('/bookings')
+  .get(controllers.booking.get)
+  .post(controllers.booking.create)
+app.route('/bookings/:uid')
+  .put(controllers.booking.update)
+  .delete(controllers.booking.delete)
+
 const port = process.env.PORT || 3000
 const server = app.listen(port, () =>
   console.log('Node server listening on port', server.address().port)

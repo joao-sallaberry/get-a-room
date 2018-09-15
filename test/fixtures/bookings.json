@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Cherry trees from Japan",
+    "roomNumber": 7,
+    "startAt": "2022-01-01 10:00",
+    "endAt":   "2022-01-01 12:00"
+  },
+  {
+    "title": "Devastating earthquakes",
+    "roomNumber": 7,
+    "startAt": "2021-04-03 15:00",
+    "endAt":   "2021-12-03 15:21"
+  },
+  {
+    "title": "Exploring the 5th",
+    "roomNumber": 11,
+    "startAt": 1606921200,
+    "endAt":   1606926600
+  }
+]
