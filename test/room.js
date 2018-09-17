@@ -12,7 +12,7 @@ const after = test
 
 before('set up', t => {
   mongoose.set('useCreateIndex', true)
-  mongoose.connect(config.mongo.url, { useNewUrlParser: true })
+  return mongoose.connect(config.mongo.url, { useNewUrlParser: true })
     .then(() => t.end())
 })
 
@@ -25,7 +25,7 @@ test('GET rooms', t => {
   })
   const res = httpMocks.createResponse()
 
-  mongoose.connection.db.dropDatabase()
+  return mongoose.connection.db.dropDatabase()
     .then(() => Room.insertMany(data))
     .then(() => room.get(req, res))
     .then(() => t.deepEqual(JSON.parse(res._getData()), data))
@@ -42,7 +42,7 @@ test('CREATE room', t => {
   })
   const res = httpMocks.createResponse()
 
-  mongoose.connection.db.dropDatabase()
+  return mongoose.connection.db.dropDatabase()
     .then(() => room.create(req, res))
     .then(() => t.equal(res.statusCode, 200))
     .then(() => Room.findOne({}, { _id: 0, name: 1, number: 1 }).lean())
@@ -60,7 +60,7 @@ test('CREATE room - invalid number', t => {
   })
   const res = httpMocks.createResponse()
 
-  mongoose.connection.db.dropDatabase()
+  return mongoose.connection.db.dropDatabase()
     .then(() => room.create(req, res))
     .then(() => t.equal(res.statusCode, 500))
     .then(() => {
@@ -88,7 +88,7 @@ test('CREATE room - duplicate number', t => {
   })
   const res2 = httpMocks.createResponse()
 
-  mongoose.connection.db.dropDatabase()
+  return mongoose.connection.db.dropDatabase()
     .then(() => room.create(req1, res1))
     // .then(() => console.log('res1', JSON.parse(res1._getData())))
     .then(() => t.equal(res1.statusCode, 200))
@@ -113,7 +113,7 @@ test('UPDATE room', t => {
   })
   const res = httpMocks.createResponse()
 
-  mongoose.connection.db.dropDatabase()
+  return mongoose.connection.db.dropDatabase()
     .then(() => Room.insertMany(data))
     .then(() => room.update(req, res))
     // .then(() => console.log('res', res._getData()))
@@ -136,7 +136,7 @@ test('DELETE room', t => {
   })
   const res = httpMocks.createResponse()
 
-  mongoose.connection.db.dropDatabase()
+  return mongoose.connection.db.dropDatabase()
     .then(() => Room.create(data))
     .then(() => room.delete(req, res))
     // .then(() => console.log('res', res._getData()))
@@ -146,8 +146,7 @@ test('DELETE room', t => {
     .then(() => t.end())
 })
 
-after('clean up', t => {
+after('clean up', t =>
   mongoose.connection.db.dropDatabase()
     .then(() => mongoose.connection.close())
-    .then(() => t.end())
-})
+    .then(() => t.end()))
