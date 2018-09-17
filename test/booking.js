@@ -12,7 +12,7 @@ const config = require('../config/index')
 const before = test
 const after = test
 
-before('set up', t => {
+before('booking tests - set up', t => {
   mongoose.set('useCreateIndex', true)
   return mongoose.connect(config.mongo.url, { useNewUrlParser: true })
     .then(() => t.end())
@@ -200,7 +200,7 @@ test('DELETE booking', t => {
     .then(() => t.end())
 })
 
-after('clean up', t =>
+after('booking tests - clean up', t =>
   mongoose.connection.db.dropDatabase()
     .then(() => mongoose.connection.close())
     .then(() => t.end()))

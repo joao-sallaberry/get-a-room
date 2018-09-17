@@ -10,7 +10,7 @@ const config = require('../config/index')
 const before = test
 const after = test
 
-before('set up', t => {
+before('room tests - set up', t => {
   mongoose.set('useCreateIndex', true)
   return mongoose.connect(config.mongo.url, { useNewUrlParser: true })
     .then(() => t.end())
@@ -124,8 +124,6 @@ test('UPDATE room', t => {
     .then(() => t.end())
 })
 
-// TODO: test UPDATE passing number
-
 test('DELETE room', t => {
   const data = require('./fixtures/rooms.json')[0]
 
@@ -146,7 +144,7 @@ test('DELETE room', t => {
     .then(() => t.end())
 })
 
-after('clean up', t =>
+after('room tests - clean up', t =>
   mongoose.connection.db.dropDatabase()
     .then(() => mongoose.connection.close())
     .then(() => t.end()))

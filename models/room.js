@@ -18,6 +18,7 @@ const roomSchema = new Schema({
 
 const Room = mongoose.model('Room', roomSchema)
 
+// check if Room number exists
 roomSchema.path('number').validate(value => {
   return Room.findOne({ number: value })
     .then(doc => !doc)
