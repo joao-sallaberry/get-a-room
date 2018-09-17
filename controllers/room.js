@@ -3,9 +3,10 @@ const Joi = require('joi')
 
 module.exports = {
   get: (req, res) => {
-    return Room.find({}, { _id: 0, name: 1, number: 1 }).lean()
+    return Room.find({ isDeleted: { $ne: true } },
+      { _id: 0, name: 1, number: 1 }).lean()
       .then(rooms => res.json(rooms))
-      .catch(err => res.json(err))
+      .catch(err => res.status(500).json(err))
   },
 
   create: (req, res) => {
@@ -35,12 +36,14 @@ module.exports = {
     return Joi.validate(req.body, schema)
       .then(body =>
         Room.findOneAndUpdate(
-          { number: req.params.number },
+          {
+            number: req.params.number,
+            isDeleted: { $ne: true }
+          },
           {
             name: body.name,
             updatedAt: new Date()
-          },
-          { new: true })
+          }, { new: true })
       )
       .then(room => res.json(room))
       .catch(err => res.status(500).json(err))
@@ -48,12 +51,15 @@ module.exports = {
 
   delete: (req, res) => {
     return Room.findOneAndUpdate(
-      { number: req.params.number },
+      {
+        number: req.params.number,
+        isDeleted: { $ne: true }
+      },
       {
         isDeleted: true,
         updatedAt: new Date()
-      }) // TODO validate params
+      }, { new: true })
       .then(room => res.json(room))
-      .catch(err => res.json(err))
+      .catch(err => res.status(500).json(err))
   }
 }
